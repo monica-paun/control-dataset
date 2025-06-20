@@ -1,3 +1,4 @@
+import os
 import cv2
 import numpy as np
 import torch
@@ -80,15 +81,18 @@ def main(image_path):
     image = cv2.imread(image_path)
     if image is None:
         raise ValueError("Image not found or unable to read.")
-
+    
+    images_folder = os.path.join(os.path.dirname(__file__), "images")
+    os.makedirs(images_folder, exist_ok=True)
+    
     image_name = image_path.split("/")[-1]
-    cv2.imwrite(f"{image_name}_original.jpg", image)
+    cv2.imwrite(os.path.join(images_folder, f"{image_name}_original.jpg"), image)
     transformed_image = apply_transform_on_person(image, lambda x: rotate_image(x, 30))
-    cv2.imwrite(f"{image_name}_rotate.jpg", transformed_image)
+    cv2.imwrite(os.path.join(images_folder, f"{image_name}_rotate.jpg"), transformed_image)
     transformed_image = apply_transform_on_person(image, lambda x: zoom_image(x, 1.5))
-    cv2.imwrite(f"{image_name}_zoom_in.jpg", transformed_image)
+    cv2.imwrite(os.path.join(images_folder, f"{image_name}_zoom_in.jpg"), transformed_image)
     transformed_image = apply_transform_on_person(image, lambda x: zoom_image(x, 0.5))
-    cv2.imwrite(f"{image_name}_zoom_out.jpg", transformed_image)
+    cv2.imwrite(os.path.join(images_folder, f"{image_name}_zoom_out.jpg"), transformed_image)
     transformed_image = apply_transform_on_person(image, mirror_image)
-    cv2.imwrite(f"{image_name}_mirror.jpg", transformed_image)
+    cv2.imwrite(os.path.join(images_folder, f"{image_name}_mirror.jpg"), transformed_image)
     
