@@ -82,6 +82,7 @@ def main(image_path):
         raise ValueError("Image not found or unable to read.")
 
     image_name = image_path.split("/")[-1]
+    cv2.imwrite(f"{image_name}_original.jpg", image)
     transformed_image = apply_transform_on_person(image, lambda x: rotate_image(x, 30))
     cv2.imwrite(f"{image_name}_rotate.jpg", transformed_image)
     transformed_image = apply_transform_on_person(image, lambda x: zoom_image(x, 1.5))
